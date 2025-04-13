@@ -38,6 +38,10 @@ dependencies {
 	implementation 'software.amazon.awssdk:auth:2.25.34' // Esta dependencia trae las clases de autenticación de AWS.
 	implementation 'software.amazon.awssdk:regions:2.25.34' // Esta dependencia trae las definiciones de regiones de AWS donde se encuentra nuestro recurso.
 
+	//dependncias mapStruct
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
 }
 
 tasks.named('test') {
