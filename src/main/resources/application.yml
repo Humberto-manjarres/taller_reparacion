@@ -1,0 +1,12 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: "taller_reparacion"
+
+aws:
+  dynamodb:
+    endpoint: http://localhost:4566 # Dirección de LocalStack
+    region: us-east-1 #Aunque sea local, el SDK exige una región válida
+    access-key: test # LocalStack ignora las credenciales, pero el SDK las requiere
+    secret-key: test
