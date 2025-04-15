@@ -5,5 +5,5 @@ public class DamageRoutes {
     public static final String REPORT = "/report";
     public static final String UPDATE = "/update";
     public static final String DELETE = "/delete";
-    public static final String FIND = "/find";
+    public static final String FIND = "/find/{damageId}";
 }

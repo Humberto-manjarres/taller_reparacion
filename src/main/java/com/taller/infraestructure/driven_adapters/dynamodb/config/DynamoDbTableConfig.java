@@ -1,4 +1,4 @@
-package com.taller.infraestructure.driven_adapters.dynamodb.employee.config;
+package com.taller.infraestructure.driven_adapters.dynamodb.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,19 +12,27 @@ public class DynamoDbTableConfig {
 
     private final DynamoDbAsyncClient dynamoDbAsyncClient;
 
-    public Mono<Void> createTable(String tableName) {
+    public Mono<Void> createRepairServiceTable() {
         CreateTableRequest request = CreateTableRequest.builder()
-                .tableName(tableName)
+                .tableName("RepairServiceTable")
                 .attributeDefinitions(
                         AttributeDefinition.builder()
-                                .attributeName("identification")
+                                .attributeName("pk")
+                                .attributeType(ScalarAttributeType.S)
+                                .build(),
+                        AttributeDefinition.builder()
+                                .attributeName("sk")
                                 .attributeType(ScalarAttributeType.S)
                                 .build()
                 )
                 .keySchema(
                         KeySchemaElement.builder()
-                                .attributeName("identification")
+                                .attributeName("pk")
                                 .keyType(KeyType.HASH)
+                                .build(),
+                        KeySchemaElement.builder()
+                                .attributeName("sk")
+                                .keyType(KeyType.RANGE)
                                 .build()
                 )
                 .provisionedThroughput(
@@ -35,7 +43,6 @@ public class DynamoDbTableConfig {
                 )
                 .build();
 
-        return Mono.fromFuture(() -> dynamoDbAsyncClient.createTable(request))
-                .then();
+        return Mono.fromFuture(() -> dynamoDbAsyncClient.createTable(request)).then();
     }
 }

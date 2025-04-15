@@ -1,6 +1,6 @@
 package com.taller;
 
-import com.taller.infraestructure.driven_adapters.dynamodb.employee.config.DynamoDbTableConfig;
+import com.taller.infraestructure.driven_adapters.dynamodb.config.DynamoDbTableConfig;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,8 +15,8 @@ public class TallerReparacionApplication {
 
 	@Bean
 	CommandLineRunner createTables(DynamoDbTableConfig config) {
-		return args -> config.createTable("employee")
-				.doOnSuccess(v -> System.out.println("Tabla creada exitosamente"))
+		return args -> config.createRepairServiceTable()
+				.doOnSuccess(v -> System.out.println("RepairServiceTable creada exitosamente"))
 				.doOnError(Throwable::printStackTrace)
 				.subscribe();
 	}
