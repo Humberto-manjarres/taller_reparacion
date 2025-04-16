@@ -13,36 +13,25 @@ public class DynamoDbTableConfig {
     private final DynamoDbAsyncClient dynamoDbAsyncClient;
 
     public Mono<Void> createRepairServiceTable() {
-        CreateTableRequest request = CreateTableRequest.builder()
-                .tableName("RepairServiceTable")
-                .attributeDefinitions(
-                        AttributeDefinition.builder()
-                                .attributeName("pk")
-                                .attributeType(ScalarAttributeType.S)
-                                .build(),
-                        AttributeDefinition.builder()
-                                .attributeName("sk")
-                                .attributeType(ScalarAttributeType.S)
-                                .build()
-                )
-                .keySchema(
-                        KeySchemaElement.builder()
-                                .attributeName("pk")
-                                .keyType(KeyType.HASH)
-                                .build(),
-                        KeySchemaElement.builder()
-                                .attributeName("sk")
-                                .keyType(KeyType.RANGE)
-                                .build()
-                )
-                .provisionedThroughput(
-                        ProvisionedThroughput.builder()
-                                .readCapacityUnits(5L)
-                                .writeCapacityUnits(5L)
-                                .build()
-                )
-                .build();
+        return Mono.fromFuture(dynamoDbAsyncClient::listTables)
+                .flatMap(listTablesResponse -> {
+                    if (!listTablesResponse.tableNames().contains("RepairServiceTable")) {
+                        CreateTableRequest request = CreateTableRequest.builder()
+                                .tableName("RepairServiceTable")
+                                .attributeDefinitions(
+                                        AttributeDefinition.builder().attributeName("pk").attributeType(ScalarAttributeType.S).build(),
+                                        AttributeDefinition.builder().attributeName("sk").attributeType(ScalarAttributeType.S).build()
+                                )
+                                .keySchema(
+                                        KeySchemaElement.builder().attributeName("pk").keyType(KeyType.HASH).build(),
+                                        KeySchemaElement.builder().attributeName("sk").keyType(KeyType.RANGE).build()
+                                )
+                                .billingMode(BillingMode.PAY_PER_REQUEST)
+                                .build();
 
-        return Mono.fromFuture(() -> dynamoDbAsyncClient.createTable(request)).then();
+                        return Mono.fromFuture(() -> dynamoDbAsyncClient.createTable(request)).then();
+                    }
+                    return Mono.empty();
+                });
     }
 }

@@ -1,11 +1,15 @@
 package com.taller.application;
 
+import com.taller.infraestructure.driven_adapters.dynamodb.common.RepairServiceItem;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbAsyncTable;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedAsyncClient;
+import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 
@@ -33,5 +37,20 @@ public class DynamoDbConfig {
                 )
                 .build();
     }
+
+    @Bean
+    public DynamoDbEnhancedAsyncClient dynamoDbEnhancedAsyncClient(DynamoDbAsyncClient dynamoDbAsyncClient) {
+        return DynamoDbEnhancedAsyncClient.builder()
+                .dynamoDbClient(dynamoDbAsyncClient)
+                .build();
+    }
+
+
+    @Bean
+    public DynamoDbAsyncTable<RepairServiceItem> dynamoDbAsyncTable(DynamoDbEnhancedAsyncClient dynamoDbEnhancedAsyncClient) {
+        TableSchema<RepairServiceItem> tableSchema = TableSchema.fromClass(RepairServiceItem.class);
+        return dynamoDbEnhancedAsyncClient.table("RepairServiceTable", tableSchema);
+    }
+
 
 }

@@ -18,14 +18,15 @@ public class DamageAdapter implements DamageGateway {
 
     @Override
     public Mono<Damage> addDamage(Damage damage) {
-        RepairServiceItem item = RepairServiceItem.builder()
+
+        DamageItem damageItem = DamageItem.builder()
                 .pk("DAMAGE#" + damage.getId())
                 .sk("INFO")
                 .entityType("Damage")
-                .data("{\"description\":\"" + damage.getDescription() + "\"}")
+                .description(damage.getDescription())
                 .build();
 
-        return repository.save(item).thenReturn(damage);
+        return repository.save(damageItem).thenReturn(damage);
     }
 
     @Override

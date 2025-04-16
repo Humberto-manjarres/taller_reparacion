@@ -2,7 +2,6 @@ package com.taller.infraestructure.driven_adapters.dynamodb.employee;
 
 import com.taller.domain.model.employee.Employee;
 import com.taller.domain.model.employee.gateway.EmployeeGateway;
-import com.taller.infraestructure.driven_adapters.dynamodb.common.RepairServiceItem;
 import com.taller.infraestructure.driven_adapters.dynamodb.common.RepairServiceItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,17 +16,16 @@ public class EmployeeAdapter implements EmployeeGateway {
     @Override
     public Mono<Employee> addEmployee(Employee employee) {
 
-        String jsonData = String.format("{ \"name\": \"%s\", \"specialty\": \"%s\" }",
-                employee.getName(),
-                employee.getSpecialty());
-
-        RepairServiceItem item = RepairServiceItem.builder()
+        EmployeeItem employeeItem = EmployeeItem.builder()
                 .pk("EMPLOYEE#" + employee.getIdentification())
                 .sk("PROFILE") //indica que estamos guardando el perfil del empleado
                 .entityType("Employee")
-                .data(jsonData)
+                .identification(employee.getIdentification())
+                .name(employee.getName())
+                .specialty(employee.getSpecialty())
                 .build();
-        return repository.save(item).thenReturn(employee);
+
+        return repository.save(employeeItem).thenReturn(employee);
     }
 
 }
