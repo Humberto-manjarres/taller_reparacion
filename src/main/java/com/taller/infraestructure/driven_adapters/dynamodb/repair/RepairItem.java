@@ -1,9 +1,6 @@
 package com.taller.infraestructure.driven_adapters.dynamodb.repair;
 
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 
 
 @DynamoDbBean
@@ -32,6 +29,7 @@ public class RepairItem {
     public String getDamageId() { return damageId; }
     public void setDamageId(String damageId) { this.damageId = damageId; }
 
+    @DynamoDbSecondaryPartitionKey(indexNames = "EmployeeIndex")
     @DynamoDbAttribute("employeeId")
     public String getEmployeeId() { return employeeId; }
     public void setEmployeeId(String employeeId) { this.employeeId = employeeId; }

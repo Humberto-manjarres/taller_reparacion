@@ -5,4 +5,5 @@ public class RepairRoutes {
     public static final String ASSIGN = "/assign";
     public static final String COMPLETE = "/complete";
     public static final String CANCEL = "/cancel";
+    public static final String FIND = "/find/{employeeId}";
 }

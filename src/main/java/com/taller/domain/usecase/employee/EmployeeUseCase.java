@@ -15,7 +15,7 @@ public class EmployeeUseCase {
         return employeeGateway.addEmployee(employee);
     }
 
-    public Mono<EmployeeRepairsResponse> findByDamageId(String damageId) {
+    public Mono<EmployeeRepairsResponse> findByEmployeeId(String damageId) {
         return employeeGateway.findByEmployeeId(damageId);
     }
 }

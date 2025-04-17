@@ -32,7 +32,7 @@ public class EmployeeHandler {
 
     public Mono<ServerResponse> findEmployee(ServerRequest serverRequest){
         String employeeId = serverRequest.pathVariable("employeeId");
-        return employeeUseCase.findByDamageId(employeeId)
+        return employeeUseCase.findByEmployeeId(employeeId)
                 .flatMap(findE -> ServerResponse.ok().bodyValue(findE));
     }
 
