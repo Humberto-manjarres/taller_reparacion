@@ -31,7 +31,9 @@ public class EmployeeHandler {
     }
 
     public Mono<ServerResponse> findEmployee(ServerRequest serverRequest){
-        return Mono.empty();
+        String employeeId = serverRequest.pathVariable("employeeId");
+        return employeeUseCase.findByDamageId(employeeId)
+                .flatMap(findE -> ServerResponse.ok().bodyValue(findE));
     }
 
 }

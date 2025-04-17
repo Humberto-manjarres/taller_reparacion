@@ -1,33 +1,33 @@
-package com.taller.infraestructure.driven_adapters.dynamodb.common;
+package com.taller.infraestructure.driven_adapters.dynamodb.damage;
 
 
+import com.taller.domain.model.damage.Damage;
+import com.taller.infraestructure.driven_adapters.dynamodb.employee.EmployeeItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbAsyncTable;
-import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedAsyncClient;
 import software.amazon.awssdk.enhanced.dynamodb.Key;
-import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
-import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient;
 
 @Repository
 @RequiredArgsConstructor
-public class RepairServiceItemRepository {
+public class DamageRepository {
 
-    private final DynamoDbAsyncTable<RepairServiceItem> table;
+    private final DynamoDbAsyncTable<DamageItem> table;
 
-    public Mono<Void> save(RepairServiceItem item) {
+    public Mono<Void> save(DamageItem item) {
         return Mono.fromFuture(() -> table.putItem(item)).then();
     }
 
-    public Flux<RepairServiceItem> findByDamageId(String damageId) {
+    public Flux<Damage> findByDamageId(String damageId) {
         QueryConditional queryConditional = QueryConditional
                 .keyEqualTo(Key.builder().partitionValue("DAMAGE#" + damageId).build());
 
-        return Flux.from(table.query(queryConditional))
+         Flux.from(table.query(queryConditional))
                 .flatMap(page -> Flux.fromIterable(page.items()));
+         return null;
     }
 
 }

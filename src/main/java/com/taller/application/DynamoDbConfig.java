@@ -1,6 +1,9 @@
 package com.taller.application;
 
 import com.taller.infraestructure.driven_adapters.dynamodb.common.RepairServiceItem;
+import com.taller.infraestructure.driven_adapters.dynamodb.damage.DamageItem;
+import com.taller.infraestructure.driven_adapters.dynamodb.employee.EmployeeItem;
+import com.taller.infraestructure.driven_adapters.dynamodb.repair.RepairItem;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -47,10 +50,18 @@ public class DynamoDbConfig {
 
 
     @Bean
-    public DynamoDbAsyncTable<RepairServiceItem> dynamoDbAsyncTable(DynamoDbEnhancedAsyncClient dynamoDbEnhancedAsyncClient) {
-        TableSchema<RepairServiceItem> tableSchema = TableSchema.fromClass(RepairServiceItem.class);
-        return dynamoDbEnhancedAsyncClient.table("RepairServiceTable", tableSchema);
+    public DynamoDbAsyncTable<DamageItem> damageItemTable(DynamoDbEnhancedAsyncClient enhancedAsyncClient) {
+        return enhancedAsyncClient.table("RepairServiceTable", TableSchema.fromBean(DamageItem.class));
     }
 
+    @Bean
+    public DynamoDbAsyncTable<EmployeeItem> employeeItemTable(DynamoDbEnhancedAsyncClient enhancedAsyncClient) {
+        return enhancedAsyncClient.table("RepairServiceTable", TableSchema.fromBean(EmployeeItem.class));
+    }
+
+    @Bean
+    public DynamoDbAsyncTable<RepairItem> repairItemTable(DynamoDbEnhancedAsyncClient enhancedAsyncClient) {
+        return enhancedAsyncClient.table("RepairServiceTable", TableSchema.fromBean(RepairItem.class));
+    }
 
 }

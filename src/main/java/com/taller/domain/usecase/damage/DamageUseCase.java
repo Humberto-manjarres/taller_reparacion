@@ -3,7 +3,6 @@ package com.taller.domain.usecase.damage;
 
 import com.taller.domain.model.damage.Damage;
 import com.taller.domain.model.damage.gateway.DamageGateway;
-import com.taller.infraestructure.driven_adapters.dynamodb.common.RepairServiceItem;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -16,7 +15,7 @@ public class DamageUseCase {
         return damageGateway.addDamage(damage);
     }
 
-    public Flux<RepairServiceItem> findByDamageId(String damageId) {
+    public Flux<Damage> findByDamageId(String damageId) {
         return damageGateway.findByDamageId(damageId);
     }
 }

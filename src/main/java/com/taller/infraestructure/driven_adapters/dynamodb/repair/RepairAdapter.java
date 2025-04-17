@@ -3,7 +3,6 @@ package com.taller.infraestructure.driven_adapters.dynamodb.repair;
 
 import com.taller.domain.model.repair.Repair;
 import com.taller.domain.model.repair.gateway.RepairGateway;
-import com.taller.infraestructure.driven_adapters.dynamodb.common.RepairServiceItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -12,18 +11,17 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class RepairAdapter implements RepairGateway {
 
-    private final RepairServiceItemRepository repository;
+    private final RepairRepository repository;
 
     @Override
     public Mono<Repair> addRepair(Repair repair) {
 
-        RepairItem repairItem = RepairItem.builder()
-                .pk("DAMAGE#" + repair.getDamageId())
-                .sk("REPAIRED_BY#EMPLOYEE#" + repair.getEmployeeId())
-                .entityType("Repair")
-                .employeeId(repair.getEmployeeId())
-                .repairDate(repair.getRepairDate())
-                .build();
+        RepairItem repairItem = new RepairItem();
+        repairItem.setPk("DAMAGE#" + repair.getDamageId());
+        repairItem.setSk("REPAIRED_BY#EMPLOYEE#" + repair.getEmployeeId());
+        repairItem.setEntityType("Repair");
+        repairItem.setEmployeeId(repair.getEmployeeId());
+        repairItem.setRepairDate(repair.getRepairDate());
 
         return repository.save(repairItem).thenReturn(repair);
     }
