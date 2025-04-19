@@ -37,7 +37,7 @@ dependencies {
 	implementation 'software.amazon.awssdk:dynamodb:2.25.34' // Esta es el AWS SDK para DynamoDB. sirve para conectarse y hacer operaciones (CRUD) en DynamoDB.
 	implementation 'software.amazon.awssdk:auth:2.25.34' // Esta dependencia trae las clases de autenticación de AWS.
 	implementation 'software.amazon.awssdk:regions:2.25.34' // Esta dependencia trae las definiciones de regiones de AWS donde se encuentra nuestro recurso.
-	implementation 'software.amazon.awssdk:dynamodb-enhanced:2.20.137'
+	implementation 'software.amazon.awssdk:dynamodb-enhanced:2.20.137' // dependencia para usar DynamoDB Enhanced Client
 
 
 	//dependncias mapStruct

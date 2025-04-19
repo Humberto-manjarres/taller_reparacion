@@ -2,7 +2,6 @@ package com.taller.infraestructure.driven_adapters.dynamodb.damage;
 
 
 import com.taller.domain.model.damage.Damage;
-import com.taller.infraestructure.driven_adapters.dynamodb.employee.EmployeeItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
@@ -23,11 +22,18 @@ public class DamageRepository {
 
     public Flux<Damage> findByDamageId(String damageId) {
         QueryConditional queryConditional = QueryConditional
-                .keyEqualTo(Key.builder().partitionValue("DAMAGE#" + damageId).build());
+                .keyEqualTo(Key.builder()
+                        .partitionValue("DAMAGE#" + damageId)
+                        .sortValue("INFO")  // Aquí pones el valor exacto de sk
+                        .build());
 
-         Flux.from(table.query(queryConditional))
-                .flatMap(page -> Flux.fromIterable(page.items()));
-         return null;
+        return Flux.from(table.query(r -> r.queryConditional(queryConditional)))
+                .flatMap(page -> Flux.fromIterable(page.items()))
+                .map(this::toDomain);
+    }
+
+    private Damage toDomain(DamageItem item) {
+        return new Damage(item.getId(), item.getDescription());
     }
 
 }
