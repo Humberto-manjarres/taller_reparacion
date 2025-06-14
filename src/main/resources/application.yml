@@ -10,3 +10,6 @@ aws:
     region: us-east-1 #Aunque sea local, el SDK exige una región válida
     access-key: test # LocalStack ignora las credenciales, pero el SDK las requiere
     secret-key: test
+app:
+  sqs:
+    queueUrl: http://localhost:4566/000000000000/transformer_product

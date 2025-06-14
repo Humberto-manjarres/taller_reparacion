@@ -6,8 +6,21 @@ services:
     ports:
       - "4566:4566"   # Puerto universal de LocalStack
     environment:
-      - SERVICES=dynamodb
+      - SERVICES=dynamodb,sqs,lambda
       - DEFAULT_REGION=us-east-1
       - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
+    
+
+  dynamodb_admin:
+    image: aaronshaf/dynamodb-admin:latest
+    ports:
+      - "8001:8001"
+    environment:
+      - DYNAMO_ENDPOINT=http://localstack:4566
+      - AWS_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+    depends_on:
+      - localstack

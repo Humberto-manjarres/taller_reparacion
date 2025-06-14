@@ -39,6 +39,11 @@ dependencies {
 	implementation 'software.amazon.awssdk:regions:2.25.34' // Esta dependencia trae las definiciones de regiones de AWS donde se encuentra nuestro recurso.
 	implementation 'software.amazon.awssdk:dynamodb-enhanced:2.20.137' // dependencia para usar DynamoDB Enhanced Client
 
+	//cola SQS
+	implementation 'software.amazon.awssdk:sqs:2.25.34'
+
+	//Gson google
+	implementation 'com.google.code.gson:gson:2.10.1'
 
 	//dependncias mapStruct
 	implementation 'org.mapstruct:mapstruct:1.5.5.Final'

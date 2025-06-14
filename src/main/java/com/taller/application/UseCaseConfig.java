@@ -7,6 +7,7 @@ import com.taller.domain.model.repair.gateway.RepairGateway;
 import com.taller.domain.usecase.damage.DamageUseCase;
 import com.taller.domain.usecase.employee.EmployeeUseCase;
 import com.taller.domain.usecase.repair.RepairUseCase;
+import com.taller.infraestructure.driven_adapters.sqs_event_handler.SqsPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,8 +15,8 @@ import org.springframework.context.annotation.Configuration;
 public class UseCaseConfig {
 
     @Bean
-    public EmployeeUseCase employeeUseCase(EmployeeGateway employeeGateway){
-        return new EmployeeUseCase(employeeGateway);
+    public EmployeeUseCase employeeUseCase(EmployeeGateway employeeGateway, SqsPublisher sqsPublisher){
+        return new EmployeeUseCase(employeeGateway,sqsPublisher);
     }
 
     @Bean
