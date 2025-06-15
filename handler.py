@@ -13,7 +13,18 @@ def handler(event, context):
         # Guardar en destino
         table.put_item(
             Item={
-                "pk": f"EMPLOYEE#{body['identification']}_migrado",
+                "pk": f"EMPLOYEE#{body['identification']}_migrado_1",
+                "sk": "PROFILE",
+                "name": body["name"],
+                "specialty": body["specialty"],
+                "identification": body["identification"]
+            },
+            ConditionExpression="attribute_not_exists(pk)"
+        )
+        
+        table.put_item(
+            Item={
+                "pk": f"EMPLOYEE#{body['identification']}_migrado_2",
                 "sk": "PROFILE",
                 "name": body["name"],
                 "specialty": body["specialty"],
